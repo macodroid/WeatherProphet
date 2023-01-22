@@ -80,9 +80,13 @@ def encode_cyclic_data(weather_data: pd.DataFrame) -> pd.DataFrame:
     return weather_data
 
 
-def normalize_data(weather_data: pd.DataFrame) -> tuple[DataFrame, float, float]:
-    mean = weather_data.mean()
+def normalize_data(weather_data: pd.DataFrame, mean: float = None, std: float = None):
+    if (mean is None) and (std is None):
+        mean = weather_data.mean()
+        weather_data -= mean
+        std = weather_data.std()
+        weather_data /= std
+        return weather_data, mean, std
     weather_data -= mean
-    std = weather_data.std()
     weather_data /= std
-    return weather_data, mean, std
+    return weather_data
