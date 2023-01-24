@@ -14,7 +14,7 @@ def split_data(date_train_end: datetime,
     return train_data, val_data, test_data
 
 
-def process_data(weather_data: pd.DataFrame, hourly_intervals=True) -> pd.DataFrame:
+def process_data(weather_data: pd.DataFrame, hourly_intervals=True) -> tuple[pd.DataFrame, pd.DataFrame]:
     if weather_data.isnull().values.any():
         # delete rows with missing values
         weather_data.dropna(axis=0, inplace=True)
@@ -25,14 +25,16 @@ def process_data(weather_data: pd.DataFrame, hourly_intervals=True) -> pd.DataFr
     weather_data = add_time_columns(weather_data)
     if hourly_intervals:
         weather_data = get_hourly_data(weather_data)
+    label_temperature = weather_data['next_T']
     # encode cyclic data
     weather_data = encode_cyclic_data(weather_data)
     # delete unnecessary columns
     weather_data = clean_dataframe(weather_data)
     # reorganize columns
-    weather_data = weather_data[['sin_day_of_year', 'cos_day_of_year', 'sin_hour', 'cos_hour', 'P0', 'U', 'Ff', 'T']]
+    weather_data = weather_data[['sin_day_of_year', 'cos_day_of_year', 'sin_hour',
+                                 'cos_hour', 'P0', 'T', 'U', 'Ff']]
 
-    return weather_data
+    return weather_data, label_temperature
 
 
 def add_day_of_year(weather_data: pd.DataFrame) -> pd.DataFrame:
