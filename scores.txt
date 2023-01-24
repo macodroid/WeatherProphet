@@ -1,0 +1,39 @@
+mlp1hidden6days2
+Last train loss: 0.8461791233602145
+Last val loss: 0.9886261673941128
+Test loss: 0.9184943696726924
+
+mlp_w6_sch75_lr0999
+Last train loss: 4.313613601663011
+Last val loss: 4.21525249964949
+Test loss: 4.496093928813934
+
+mlp_w6_sch75_lr01
+Last train loss: 79.12292309179374
+Last val loss: 79.23010360330775
+Test loss: 75.4456069227578
+
+mlp_w6_sch75_lr01
+Last train loss: 0.48843841936360016
+Last val loss: 0.5634005546569825
+Test loss: 0.5400039779288428
+
+mlp_w1_sch60
+Last train loss: 5.541302840760413
+Last val loss: 11.380612346861097
+Test loss: 11.833341002464294
+
+mlp_w1_sch60
+Last train loss: 0.5254242534333087
+Last val loss: 0.5789925704399744
+Test loss: 0.5994686898257997
+
+mlp_w1_sch60_shuffle
+Last train loss: 0.44548956933596456
+Last val loss: 0.523820537659857
+Test loss: 0.5004654253522555
+
+mlp_w1_sch60_shuffle_ds
+Last train loss: 0.47749179200077735
+Last val loss: 0.5378585855166117
+Test loss: 0.5359871635834376

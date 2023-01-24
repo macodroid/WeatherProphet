@@ -9,18 +9,10 @@ class ClassicWeatherProphet(nn.Module):
         self.output_size = output_size
 
         self.model = nn.Sequential(
-            nn.Linear(self.input_size, 128),
-            nn.BatchNorm1d(128),
-            nn.GELU(),
-            nn.Dropout(0.2),
-            nn.Linear(128, 128),
-            nn.BatchNorm1d(128),
-            nn.GELU(),
-            nn.Dropout(0.2),
-            nn.Linear(128, 64),
-            nn.BatchNorm1d(64),
-            nn.GELU(),
-            nn.Dropout(0.2),
+            nn.Linear(self.input_size, 64),
+            nn.ReLU(),
+            nn.Linear(64, 64),
+            nn.ReLU(),
             nn.Linear(64, 1),
         )
 
