@@ -51,6 +51,6 @@ if __name__ == "__main__":
     np.save("dataset/val_labels.npy", val_labels)
     # test
     np.save("dataset/test_features.npy", norm_test_features)
-    np.save("dataset/train_labels.npy", test_labels)
+    np.save("dataset/test_labels.npy", test_labels)
     # normalization data
     np.save("dataset/stat.npy", np.array([mean.to_numpy(), std.to_numpy()]))
