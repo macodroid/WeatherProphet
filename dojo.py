@@ -51,18 +51,15 @@ class Dojo:
 
     def test(self):
         losses = []
+        predicted = []
         self.model.eval()
         with torch.no_grad():
             for i, batch in enumerate(self.test_dl):
                 x = batch[0].type(torch.FloatTensor).to(self.device)
-                y = (
-                    batch[1]
-                    .type(torch.FloatTensor)
-                    .to(self.device)
-                    .reshape(-1, 1)
-                )
+                y = batch[1].type(torch.FloatTensor).to(self.device).reshape(-1, 1)
 
                 y_hat = self.model(x)
+                predicted.append(y_hat.cpu().numpy())
                 loss = self.loss_fn(y_hat, y)
                 losses.append(loss.item())
-        return losses
+        return losses, predicted

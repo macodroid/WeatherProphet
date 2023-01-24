@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from data_utils import create_plot
+from data_utils import create_plot, get_device
 from dataset import TimeSeriesDataset
 from torch.utils.data import DataLoader
 from dojo import Dojo
@@ -8,8 +8,8 @@ from mlp import ClassicWeatherProphet
 from torch.optim.lr_scheduler import StepLR
 
 if __name__ == "__main__":
-    name = "mlp_w1_sch60_shuffle_ds"
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    name = "wtf"
+    device = get_device()
     print(device)
 
     train_features = np.load("dataset/train_features.npy")
@@ -65,7 +65,8 @@ if __name__ == "__main__":
         epoch_train_losses.append(train_loss)
         epoch_val_losses.append(val_loss)
 
-    acc_test = trainer.test()
+    acc_test, predicted = trainer.test()
+    np.save("predicted.npy", predicted)
     print(f"Test Accuracy of the model: {np.mean(acc_test, axis=0):.4f}")
     torch.save(model, f"WP{epochs}-{name}.pt")
     create_plot(epoch_train_losses, epoch_val_losses, name, 200)

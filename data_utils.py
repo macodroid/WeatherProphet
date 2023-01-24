@@ -1,6 +1,7 @@
 from datetime import datetime
 from matplotlib import pyplot as plt
 
+import torch
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
@@ -24,12 +25,14 @@ def process_data(
         # delete rows with missing values
         weather_data.dropna(axis=0, inplace=True)
         # reset index
-        weather_data.reset_index(drop=True, inplace=True)
+        weather_data.reset_index(inplace=True)
     # create a new column with day of the year
     weather_data = add_day_of_year(weather_data)
     weather_data = add_time_columns(weather_data)
     if hourly_intervals:
         weather_data = get_hourly_data(weather_data)
+        # create label column
+        weather_data["next_T"] = weather_data["T"].shift(1)
     label_temperature = weather_data["next_T"]
     # encode cyclic data
     weather_data = encode_cyclic_data(weather_data)
@@ -130,3 +133,12 @@ def create_plot(
         plt.savefig(f"WP-{e}-{name}.png")
     if display_plot:
         plt.show()
+
+
+def get_device() -> str:
+    if torch.cuda.is_available():
+        return "cuda"
+    elif torch.has_mps:
+        return "mps"
+    else:
+        return "cpu"
