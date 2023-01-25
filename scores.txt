@@ -37,3 +37,33 @@ mlp_w1_sch60_shuffle_ds
 Last train loss: 0.47749179200077735
 Last val loss: 0.5378585855166117
 Test loss: 0.5359871635834376
+
+wtf_fixed_1
+Last train loss: 14.563222296694493
+Last val loss: 6.899038712183635
+Test loss: 7.294382545683119
+
+wtf_fixed_1
+Last train loss: 2.3565999768304486
+Last val loss: 1.6108677122328017
+Test loss: 1.7222351398732927
+
+wtf_fixed_1
+Last train loss: 1.3892742885765454
+Last val loss: 1.5276529921425714
+Test loss: 1.6037161714500852
+
+wtf_fixed_1
+Last train loss: 1.5002000069787316
+Last val loss: 1.6845649878184001
+Test loss: 1.721842606862386
+
+wtf_fixed_1
+Last train loss: 1.3736021510252716
+Last val loss: 1.481969177722931
+Test loss: 1.5833758976724412
+
+wtf_fixed_1
+Last train loss: 1.4415566304051284
+Last val loss: 1.5393674969673157
+Test loss: 1.643084426720937

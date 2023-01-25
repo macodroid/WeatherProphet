@@ -35,8 +35,6 @@ class Dojo:
             loss.backward()
             train_losses.append(loss.item())
             self.optimizer.step()
-            # if i % 100 == 0:
-            #     print("Training loss at step {}: {}".format(i, loss.item()))
         self.model.eval()
         with torch.no_grad():
             for i, batch in enumerate(self.val_dl):

@@ -71,8 +71,6 @@ def add_time_columns(weather_data: pd.DataFrame) -> pd.DataFrame:
     weather_data[["hour", "minutes", "seconds"]] = weather_data[
         ["hour", "minutes", "seconds"]
     ].astype(int)
-    # weather_data['minutes'] = weather_data['minutes'].astype(int)
-    # weather_data['seconds'] = weather_data['seconds'].astype(int)
     return weather_data
 
 
@@ -117,20 +115,27 @@ def normalize_data(weather_data: pd.DataFrame, mean: float = None, std: float = 
 def create_plot(
     epoch_train_losses,
     epoch_val_losses,
+    epoch_test_losses,
     name,
     e,
     save_plot=True,
     display_plot=False,
 ):
     figure, axis = plt.subplots(2, 1)
+    # subplot 1
     axis[0].plot(epoch_train_losses, c="r")
     axis[0].plot(epoch_val_losses, c="b")
     axis[0].legend(["Train_loss", "Val_loss"])
     axis[0].set_title("Train vs. Validation loss")
     axis[0].set(xlabel="Epoch", ylabel="Loss")
+    # subplot 2
+    axis[1].plot(epoch_test_losses, c="g")
+    axis[1].legend(["Test_loss"])
+    axis[1].set_title("Test loss")
+    axis[1].set(xlabel="Epoch", ylabel="Loss")
     plt.tight_layout()
     if save_plot:
-        plt.savefig(f"WP-{e}-{name}.png")
+        plt.savefig(f"models/plots/WP-{e}-{name}.png")
     if display_plot:
         plt.show()
 

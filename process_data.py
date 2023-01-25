@@ -3,7 +3,7 @@ import datetime
 import numpy as np
 import pandas as pd
 
-import data_utils as helper
+import utils as helper
 
 if __name__ == "__main__":
     weather_data_path = "dataset/BA_weather_dataset_manually_pre_processed.csv"
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     )
 
     # train
-    # # train/val/test_feature/labels[1:] we shifted next_temperature by one row and the first row is NaN.
+    # # train/val/test_feature/labels[:-1] we shifted next_temperature by one row and the first row is NaN.
     # Don't want it
     np.save("dataset/train_features.npy", norm_train_features[:-1])
     np.save("dataset/train_labels.npy", train_labels[:-1])

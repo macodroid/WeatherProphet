@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from data_utils import create_plot, get_device
+from utils import create_plot, get_device
 from dataset import TimeSeriesDataset
 from torch.utils.data import DataLoader
 from dojo import Dojo
@@ -8,7 +8,7 @@ from mlp import ClassicWeatherProphet
 from torch.optim.lr_scheduler import StepLR
 
 if __name__ == "__main__":
-    name = "wtf_multistep3"
+    name = "wtf_fixed_1"
     device = get_device()
     print(device)
 
@@ -40,7 +40,6 @@ if __name__ == "__main__":
     model = ClassicWeatherProphet(input_size=input_size, output_size=output_size)
     model.to(device)
     loss_function = torch.nn.MSELoss()
-    # optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.1, betas=(0.9, 0.999))
     scheduler = StepLR(optimizer, step_size=60, gamma=0.1)
     trainer = Dojo(
@@ -65,20 +64,14 @@ if __name__ == "__main__":
         epoch_train_losses.append(train_loss)
         epoch_val_losses.append(val_loss)
 
-    acc_test, predicted = trainer.test()
+    test_loss, predicted = trainer.test()
     np.save("predicted.npy", predicted)
-    print(f"Test Accuracy of the model: {np.mean(acc_test, axis=0):.4f}")
-    torch.save(model, f"WP{epochs}-{name}.pt")
-    create_plot(epoch_train_losses, epoch_val_losses, name, 200)
+    print(f"Test MSE of the model: {np.mean(test_loss, axis=0):.4f}")
+    torch.save(model, f"models/WP{epochs}-{name}.pt")
+    create_plot(epoch_train_losses, epoch_val_losses, test_loss, name, epochs)
     with open("scores.txt", "a") as file:
         file.write("\n\n" + name)
         file.write("\n" + "Last train loss: " + str(epoch_train_losses[-1]))
         file.write("\n" + "Last val loss: " + str(epoch_val_losses[-1]))
-        file.write("\n" + "Test loss: " + str(np.mean(acc_test, axis=0)))
-    # for ac in acc_test:
-    #     print(f"Test Accuracy of the model: {ac * 100:.2f}")
-    # print(
-    #     f"\n-------------------------------\nTest Accuracy of the model: {acc_test * 100:.2f}"
-    # )
-
+        file.write("\n" + "Test loss: " + str(np.mean(test_loss, axis=0)))
     # [ ] TODO: Create GRU model
