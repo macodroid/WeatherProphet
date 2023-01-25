@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from data_utils import create_plot, get_device
+from utils import create_plot, get_device
 from dataset import TimeSeriesDataset
 from torch.utils.data import DataLoader
 from dojo import Dojo

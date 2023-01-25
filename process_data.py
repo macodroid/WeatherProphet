@@ -3,7 +3,7 @@ import datetime
 import numpy as np
 import pandas as pd
 
-import data_utils as helper
+import utils as helper
 
 if __name__ == "__main__":
     weather_data_path = "dataset/BA_weather_dataset_manually_pre_processed.csv"
