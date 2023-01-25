@@ -11,6 +11,6 @@ class TimeSeriesDataset(Dataset):
         return len(self.feature) - self.window_size
 
     def __getitem__(self, idx):
-        features = self.feature[idx : idx + self.window_size]
-        labels = self.labels[idx + self.window_size].reshape(-1, 1)
+        features = self.feature[idx: idx + self.window_size]
+        labels = self.labels[self.window_size].reshape(-1, 1)
         return features, labels
