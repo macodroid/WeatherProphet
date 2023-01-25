@@ -147,3 +147,26 @@ def get_device() -> str:
         return "mps"
     else:
         return "cpu"
+
+
+def load_train_data():
+    train_features = np.load("dataset/train_features.npy")
+    train_labels = np.load("dataset/train_labels.npy")
+    return train_features, train_labels
+
+
+def load_validation_data():
+    val_features = np.load("dataset/val_features.npy")
+    val_labels = np.load("dataset/val_labels.npy")
+    return val_features, val_labels
+
+
+def load_test_data():
+    test_features = np.load("dataset/test_features.npy")
+    test_labels = np.load("dataset/test_labels.npy")
+    return test_features, test_labels
+
+
+def load_mean_std():
+    mean, std = np.load("dataset/stat.npy")
+    return mean, std

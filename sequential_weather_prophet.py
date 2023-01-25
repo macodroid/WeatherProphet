@@ -1,14 +1,19 @@
 import numpy as np
 import torch
+from torch.optim.lr_scheduler import StepLR
+
+from dojo import Dojo
+from gru import GRUWeatherProphet
 from utils import create_plot, get_device, load_train_data, load_validation_data, load_test_data, load_mean_std
 from dataset import TimeSeriesDataset
 from torch.utils.data import DataLoader
-from dojo import Dojo
-from mlp import ClassicWeatherProphet
-from torch.optim.lr_scheduler import StepLR
 
 if __name__ == "__main__":
-    name = "wtf_fixed_1"
+    # HYPER-PARAMETERS
+    hidden_size = 64
+    num_layers = 4
+
+    name = "wtf_gru_1"
     device = get_device()
     print(device)
 
@@ -27,17 +32,17 @@ if __name__ == "__main__":
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-    input_size = window_size * train_features.shape[1]
-    # predict temperature for the next hour
-    output_size = 1
-    # define model
-    model = ClassicWeatherProphet(input_size=input_size, output_size=output_size)
-    model.to(device)
-    loss_function = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.1, betas=(0.9, 0.999))
-    scheduler = StepLR(optimizer, step_size=60, gamma=0.1)
+    gru_model = GRUWeatherProphet(input_size=8, hidden_size=hidden_size, output_size=1, num_layers=2)
+    gru_model.to(device)
+    loss_function = torch.nn.L1Loss()
+    optimizer = torch.optim.Adam(gru_model.parameters(), lr=0.1, betas=(0.9, 0.999))
+    scheduler = StepLR(optimizer, step_size=85, gamma=0.1)
+    train_losses = []
+    val_losses = []
+    epochs = 200
+
     trainer = Dojo(
-        model=model,
+        model=gru_model,
         loss_function=loss_function,
         optimizer=optimizer,
         train_dataloader=train_dataloader,
@@ -45,9 +50,6 @@ if __name__ == "__main__":
         test_dataloader=test_dataloader,
         device=device,
     )
-    epoch_train_losses = []
-    epoch_val_losses = []
-    epochs = 100
 
     for e in range(epochs):
         print(f"Epoch {e + 1}\n-------------------------------")
@@ -55,17 +57,16 @@ if __name__ == "__main__":
         scheduler.step()
         print("\nTrain loss at epoch {}: {}".format(e, train_loss))
         print("Val loss at epoch {}: {}".format(e, val_loss))
-        epoch_train_losses.append(train_loss)
-        epoch_val_losses.append(val_loss)
+        train_losses.append(train_loss)
+        val_losses.append(val_loss)
 
     test_loss, predicted = trainer.test()
-    np.save("predicted.npy", predicted)
+    # np.save("predicted.npy", predicted)
     print(f"Test MSE of the model: {np.mean(test_loss, axis=0):.4f}")
-    torch.save(model, f"models/WP{epochs}-{name}.pt")
-    create_plot(epoch_train_losses, epoch_val_losses, test_loss, name, epochs)
-    with open("scores.txt", "a") as file:
+    # torch.save(gru_model, f"models/WP{epochs}-{name}.pt")
+    # create_plot(train_losses, val_losses, test_loss, name, epochs)
+    with open("scores_gru.txt", "a") as file:
         file.write("\n\n" + name)
-        file.write("\n" + "Last train loss: " + str(epoch_train_losses[-1]))
-        file.write("\n" + "Last val loss: " + str(epoch_val_losses[-1]))
+        file.write("\n" + "Last train loss: " + str(train_losses[-1]))
+        file.write("\n" + "Last val loss: " + str(val_losses[-1]))
         file.write("\n" + "Test loss: " + str(np.mean(test_loss, axis=0)))
-    # [ ] TODO: Create GRU model
