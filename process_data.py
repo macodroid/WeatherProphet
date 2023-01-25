@@ -11,7 +11,7 @@ if __name__ == "__main__":
     weather_data = pd.read_csv(weather_data_path, parse_dates=["Date"])
     # reverse order of rows
     weather_data = weather_data.iloc[::-1]
-    weather_data.reset_index(inplace=True)
+    weather_data.reset_index(drop=True, inplace=True)
 
     # split dataset into train, validation and test.
     # The train dataset will start from 2012-10-01 (yyyy-mm-dd) and end at 2020-12-31.
