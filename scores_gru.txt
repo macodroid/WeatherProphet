@@ -1,0 +1,11 @@
+
+
+wtf_gru_1
+Last train loss: 1.0797921890485371
+Last val loss: 1.226415388924735
+Test loss: 1.181159670012338
+
+wtf_gru_1
+Last train loss: 1.5625861211025969
+Last val loss: 1.563444321496146
+Test loss: 1.5295903376170568
