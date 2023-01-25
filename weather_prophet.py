@@ -8,7 +8,7 @@ from mlp import ClassicWeatherProphet
 from torch.optim.lr_scheduler import StepLR
 
 if __name__ == "__main__":
-    name = "wtf"
+    name = "wtf_multistep3"
     device = get_device()
     print(device)
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     mean, std = np.load("dataset/stat.npy")
 
-    window_size = 1
+    window_size = 6
     train_dataset = TimeSeriesDataset(train_features, train_labels, window_size)
     val_dataset = TimeSeriesDataset(val_features, val_labels, window_size)
     test_dataset = TimeSeriesDataset(test_features, test_labels, window_size)
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     )
     epoch_train_losses = []
     epoch_val_losses = []
-    epochs = 200
+    epochs = 100
 
     for e in range(epochs):
         print(f"Epoch {e + 1}\n-------------------------------")
@@ -81,6 +81,4 @@ if __name__ == "__main__":
     #     f"\n-------------------------------\nTest Accuracy of the model: {acc_test * 100:.2f}"
     # )
 
-    # [ ] TODO: Create MLP model
-    # [ ] TODO: For loop for training
     # [ ] TODO: Create GRU model

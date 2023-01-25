@@ -46,13 +46,15 @@ if __name__ == "__main__":
     )
 
     # train
-    np.save("dataset/train_features.npy", norm_train_features)
-    np.save("dataset/train_labels.npy", train_labels)
+    # # train/val/test_feature/labels[1:] we shifted next_temperature by one row and the first row is NaN.
+    # Don't want it
+    np.save("dataset/train_features.npy", norm_train_features[1:])
+    np.save("dataset/train_labels.npy", train_labels[1:])
     # validation
-    np.save("dataset/val_features.npy", norm_val_features)
-    np.save("dataset/val_labels.npy", val_labels)
+    np.save("dataset/val_features.npy", norm_val_features[1:])
+    np.save("dataset/val_labels.npy", val_labels[1:])
     # test
-    np.save("dataset/test_features.npy", norm_test_features)
-    np.save("dataset/test_labels.npy", test_labels)
+    np.save("dataset/test_features.npy", norm_test_features[1:])
+    np.save("dataset/test_labels.npy", test_labels[1:])
     # normalization data
     np.save("dataset/stat.npy", np.array([mean.to_numpy(), std.to_numpy()]))

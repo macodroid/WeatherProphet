@@ -27,7 +27,7 @@ class Dojo:
         self.model.train()
         for i, batch in enumerate(self.train_dl):
             x = batch[0].type(torch.FloatTensor).to(self.device)
-            y = batch[1].type(torch.FloatTensor).to(self.device).reshape(-1, 1)
+            y = batch[1].type(torch.FloatTensor).to(self.device)
             self.optimizer.zero_grad()
 
             y_hat = self.model(x)
@@ -41,7 +41,7 @@ class Dojo:
         with torch.no_grad():
             for i, batch in enumerate(self.val_dl):
                 x = batch[0].type(torch.FloatTensor).to(self.device)
-                y = batch[1].type(torch.FloatTensor).to(self.device).reshape(-1, 1)
+                y = batch[1].type(torch.FloatTensor).to(self.device)
 
                 out = self.model(x)
                 loss = self.loss_fn(out, y)
@@ -56,7 +56,7 @@ class Dojo:
         with torch.no_grad():
             for i, batch in enumerate(self.test_dl):
                 x = batch[0].type(torch.FloatTensor).to(self.device)
-                y = batch[1].type(torch.FloatTensor).to(self.device).reshape(-1, 1)
+                y = batch[1].type(torch.FloatTensor).to(self.device)
 
                 y_hat = self.model(x)
                 predicted.append(y_hat.cpu().numpy())

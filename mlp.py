@@ -25,5 +25,6 @@ class ClassicWeatherProphet(nn.Module):
         self.model.apply(init_weights)
 
     def forward(self, x):
-        x = x.view(-1, self.input_size)
+        dim1, _, _ = x.shape
+        x = x.reshape(dim1, -1, self.input_size)
         return self.model(x)
