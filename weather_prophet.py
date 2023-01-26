@@ -8,7 +8,7 @@ from mlp import ClassicWeatherProphet
 from torch.optim.lr_scheduler import StepLR
 
 if __name__ == "__main__":
-    name = "wtf_fixed_1"
+    name = "wtf_dataset_modification_1_L1loss_int"
     device = get_device()
     print(device)
 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     # define model
     model = ClassicWeatherProphet(input_size=input_size, output_size=output_size)
     model.to(device)
-    loss_function = torch.nn.MSELoss()
+    loss_function = torch.nn.L1Loss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.1, betas=(0.9, 0.999))
     scheduler = StepLR(optimizer, step_size=60, gamma=0.1)
     trainer = Dojo(

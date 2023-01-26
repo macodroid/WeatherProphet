@@ -67,3 +67,23 @@ wtf_fixed_1
 Last train loss: 1.4415566304051284
 Last val loss: 1.5393674969673157
 Test loss: 1.643084426720937
+
+wtf_dataset_modification_1_MSE
+Last train loss: 0.7830582891191755
+Last val loss: 0.8261444954311147
+Test loss: 0.8408191607278936
+
+wtf_dataset_modification_1_L1loss
+Last train loss: 0.6509015585694994
+Last val loss: 0.6579442672869739
+Test loss: 0.6690172009608325
+
+wtf_dataset_modification_1_L1loss_win8
+Last train loss: 0.6163563884741871
+Last val loss: 0.6353487206829919
+Test loss: 0.6491773459646437
+
+wtf_dataset_modification_1_L1loss_int
+Last train loss: 0.6209537209348476
+Last val loss: 0.6543851974937651
+Test loss: 0.6485834552182091
