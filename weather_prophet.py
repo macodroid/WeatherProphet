@@ -8,7 +8,7 @@ from mlp import ClassicWeatherProphet
 from torch.optim.lr_scheduler import StepLR
 
 if __name__ == "__main__":
-    name = "wtf_dataset_modification_1_L1loss_int"
+    name = "wtf_dataset_modification_1_L1loss_test"
     device = get_device()
     print(device)
 
@@ -74,4 +74,3 @@ if __name__ == "__main__":
         file.write("\n" + "Last train loss: " + str(epoch_train_losses[-1]))
         file.write("\n" + "Last val loss: " + str(epoch_val_losses[-1]))
         file.write("\n" + "Test loss: " + str(np.mean(test_loss, axis=0)))
-    # [ ] TODO: Create GRU model
