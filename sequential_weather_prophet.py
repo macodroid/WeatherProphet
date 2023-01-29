@@ -10,10 +10,10 @@ from torch.utils.data import DataLoader
 
 if __name__ == "__main__":
     # HYPER-PARAMETERS
-    hidden_size = 64
-    num_layers = 4
+    hidden_size = 128
+    num_layers = 2
 
-    name = "wtf_gru_1"
+    name = "gru_400e"
     device = get_device()
     print(device)
 
@@ -34,12 +34,12 @@ if __name__ == "__main__":
 
     gru_model = GRUWeatherProphet(input_size=8, hidden_size=hidden_size, output_size=1, num_layers=2)
     gru_model.to(device)
-    loss_function = torch.nn.L1Loss()
+    loss_function = torch.nn.MSELoss()
     optimizer = torch.optim.Adam(gru_model.parameters(), lr=0.1, betas=(0.9, 0.999))
-    scheduler = StepLR(optimizer, step_size=85, gamma=0.1)
+    scheduler = StepLR(optimizer, step_size=50, gamma=0.1)
     train_losses = []
     val_losses = []
-    epochs = 200
+    epochs = 400
 
     trainer = Dojo(
         model=gru_model,
@@ -63,8 +63,8 @@ if __name__ == "__main__":
     test_loss, predicted = trainer.test()
     # np.save("predicted.npy", predicted)
     print(f"Test MSE of the model: {np.mean(test_loss, axis=0):.4f}")
-    # torch.save(gru_model, f"models/WP{epochs}-{name}.pt")
-    # create_plot(train_losses, val_losses, test_loss, name, epochs)
+    torch.save(gru_model, f"models/WP{epochs}-{name}.pt")
+    create_plot(train_losses, val_losses, test_loss, name, epochs)
     with open("scores_gru.txt", "a") as file:
         file.write("\n\n" + name)
         file.write("\n" + "Last train loss: " + str(train_losses[-1]))
