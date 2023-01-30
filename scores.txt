@@ -107,3 +107,8 @@ mlp_jit_1
 Last train loss: 0.7203405812277016
 Last val loss: 0.8141990469561683
 Test loss: 0.8462029314703412
+
+mlp_jit_L1
+Last train loss: 0.617087075473569
+Last val loss: 0.6550267040729523
+Test loss: 0.6474104407760832
