@@ -9,3 +9,23 @@ wtf_gru_1
 Last train loss: 1.5625861211025969
 Last val loss: 1.563444321496146
 Test loss: 1.5295903376170568
+
+gru_jit_128_3_fix
+Last train loss: 1.9211016031021768
+Last val loss: 1.8345589107937283
+Test loss: 1.9812350869178772
+
+gru_jit_64_3
+Last train loss: 1.0445098141406446
+Last val loss: 1.0820629398028057
+Test loss: 1.0595109926329718
+
+gru_jit_64_2_L1
+Last train loss: 1.5741966041267341
+Last val loss: 3.1585489047898188
+Test loss: 2.7814608017603555
+
+gru_jit_64_3_L1_1
+Last train loss: 1.0260558056493176
+Last val loss: 0.9709143108791776
+Test loss: 0.9067045317755805

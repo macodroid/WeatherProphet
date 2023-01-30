@@ -3,10 +3,11 @@ from torch import nn
 
 
 class GRUWeatherProphet(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, num_layers, batch_first=True):
+    def __init__(self, input_size, hidden_size, output_size, num_layers, batch_first=True, device="cpu"):
         super(GRUWeatherProphet, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
+        self.device = device
         self.gru = nn.GRU(input_size, hidden_size, num_layers, batch_first)
         self.bn = nn.BatchNorm1d(hidden_size)
         self.fc = nn.Sequential(
@@ -30,7 +31,7 @@ class GRUWeatherProphet(nn.Module):
         self.fc.apply(init_weights)
 
     def forward(self, x):
-        h0 = torch.zeros(self.num_layers, x.size(1), self.hidden_size).cuda()
+        h0 = torch.zeros(self.num_layers, x.size(1), self.hidden_size).to(self.device)
         out, _ = self.gru(x, h0)
         out = out[:, -1, :]
         return self.fc(out)

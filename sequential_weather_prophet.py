@@ -11,9 +11,9 @@ from torch.utils.data import DataLoader
 if __name__ == "__main__":
     # HYPER-PARAMETERS
     hidden_size = 64
-    num_layers = 4
+    num_layers = 3
 
-    name = "gru_jit_128_3"
+    name = f"gru_jit_{hidden_size}_{num_layers}_L1_1"
     device = get_device()
     print(device)
 
@@ -32,9 +32,9 @@ if __name__ == "__main__":
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-    gru_model = GRUWeatherProphet(input_size=8, hidden_size=hidden_size, output_size=1, num_layers=2)
+    gru_model = GRUWeatherProphet(input_size=8, hidden_size=hidden_size, output_size=1, num_layers=2, device=device)
     gru_model.to(device)
-    loss_function = torch.nn.MSELoss()
+    loss_function = torch.nn.L1Loss()
     optimizer = torch.optim.Adam(gru_model.parameters(), lr=0.1, betas=(0.9, 0.999))
     scheduler = StepLR(optimizer, step_size=85, gamma=0.1)
     train_losses = []
