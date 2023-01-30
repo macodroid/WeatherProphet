@@ -10,10 +10,10 @@ from torch.utils.data import DataLoader
 
 if __name__ == "__main__":
     # HYPER-PARAMETERS
-    hidden_size = 128
-    num_layers = 2
+    hidden_size = 64
+    num_layers = 4
 
-    name = "gru_400e"
+    name = "gru_jit_128_3"
     device = get_device()
     print(device)
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     gru_model.to(device)
     loss_function = torch.nn.MSELoss()
     optimizer = torch.optim.Adam(gru_model.parameters(), lr=0.1, betas=(0.9, 0.999))
-    scheduler = StepLR(optimizer, step_size=50, gamma=0.1)
+    scheduler = StepLR(optimizer, step_size=85, gamma=0.1)
     train_losses = []
     val_losses = []
     epochs = 400
@@ -63,7 +63,8 @@ if __name__ == "__main__":
     test_loss, predicted = trainer.test()
     # np.save("predicted.npy", predicted)
     print(f"Test MSE of the model: {np.mean(test_loss, axis=0):.4f}")
-    torch.save(gru_model, f"models/WP{epochs}-{name}.pt")
+    scripted_model = torch.jit.script(gru_model)
+    torch.jit.save(scripted_model, f"models/{name}.pt")
     create_plot(train_losses, val_losses, test_loss, name, epochs)
     with open("scores_gru.txt", "a") as file:
         file.write("\n\n" + name)
